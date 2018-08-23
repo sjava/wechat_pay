@@ -21,8 +21,8 @@ defmodule WechatPay.Utils.XMLParser do
   ```
   """
   @spec parse(String.t(), String.t()) :: {:ok, map} | {:error, Error.t()}
-  def parse(xml_string, 
-    root_element \\ "xml", 
+  def parse(xml_string,
+    root_element \\ "xml",
     options \\ [quiet: true, fetch_fun: fn _k, _s -> {:error, "no support XXE"} end]
     ) when is_binary(xml_string) do
     try do

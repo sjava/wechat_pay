@@ -97,7 +97,7 @@ defmodule WechatPay.JSAPI do
   def generate_pay_request(prepay_id, config) do
     %{
       "appId" => config.appid,
-      "timeStamp" => Integer.to_string(:os.system_time()),
+      "timeStamp" => Integer.to_string(:os.system_time(:second)),
       "nonceStr" => NonceStr.generate(),
       "package" => "prepay_id=#{prepay_id}",
       "signType" => "MD5"
