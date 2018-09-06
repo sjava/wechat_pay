@@ -1,14 +1,14 @@
 defmodule WechatPay.Mixfile do
   use Mix.Project
 
-  @version "0.6.0"
+  @version "0.7.0"
   @url "https://github.com/linjunpop/wechat_pay"
 
   def project do
     [
       app: :wechat_pay,
       version: @version,
-      elixir: "~> 1.3",
+      elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -35,7 +35,7 @@ defmodule WechatPay.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :xmerl]]
+    [extra_applications: [:logger, :xmerl]]
   end
 
   # Dependencies can be Hex packages:
@@ -52,17 +52,16 @@ defmodule WechatPay.Mixfile do
       {:httpoison, "~> 0.9 or ~> 1.0"},
 
       # Optional
-      {:poison, "~> 2.2 or ~> 3.0", optional: true},
-      {:jason, "~> 1.0", optional: true},
       {:plug, "~> 1.2", optional: true},
 
       # Dev
-      {:exvcr, "~> 0.7", only: :test},
+      {:poison, "~> 4.0", only: [:dev, :test, :docs], override: true},
+      {:jason, "~> 1.0", only: [:dev, :test]},
       {:credo, "~> 0.4", only: [:dev, :test]},
-      {:dialyxir, "~> 0.3", only: :dev},
+      {:exvcr, "~> 0.7", only: :test},
 
       # Docs
-      {:inch_ex, "~> 0.2", only: :docs},
+      {:inch_ex, "~> 1.0", only: :docs},
       {:ex_doc, "~> 0.14", only: [:dev, :docs]}
     ]
   end

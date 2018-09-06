@@ -2,6 +2,11 @@
 
 ## master
 
+## v0.7.0
+
+* Require Elixir >= 1.6
+* Make the config `ssl_cacert` an optional option. (#11)
+
 ## v0.6.0
 
 ⚠️ Breaking changes
