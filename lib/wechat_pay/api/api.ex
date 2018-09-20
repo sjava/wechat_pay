@@ -151,6 +151,32 @@ defmodule WechatPay.API do
     Client.post("payitil/report", attrs, [], config)
   end
 
+  @doc """
+  Request to transfers to user
+
+  ⚠️ This requires the ssl config is set
+
+  ## Examples
+
+      iex> attrs = %{
+        partner_trade_no: "testing1234",
+        openid: "oMPOddsJBE0JpHqYnwa840y5E",
+        check_name: "NO_CHECK",
+        amount: 100,
+        desc: "测试",
+        spbill_create_ip: "10.2.3.10"
+      }
+      ...> WechatPay.API.transfers(attrs, opts)
+      ...> {:ok, data}
+  """
+  @spec transfers(map, Config.t()) ::
+          {:ok, map} | {:error, WechatPay.Error.t() | HTTPoison.Error.t()}
+  def transfers(attrs, config) do
+    ssl = config |> load_ssl() |> Enum.filter(&value_not_nil/1)
+
+    Client.transfers("mmpaymkttransfers/promotion/transfers", attrs, [ssl: ssl], config)
+  end
+
   defp decode_public(nil), do: nil
 
   defp decode_public(pem) do

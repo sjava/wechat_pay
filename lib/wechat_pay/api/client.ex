@@ -23,6 +23,32 @@ defmodule WechatPay.API.Client do
     end
   end
 
+  def transfers(path, attrs, options, config) do
+    path =
+      config.api_host
+      |> URI.merge(path)
+      |> to_string()
+
+    headers = [
+      {"Accept", "application/xml"},
+      {"Content-Type", "application/xml"}
+    ]
+
+    request_data =
+      attrs
+      |> Map.merge(%{mch_appid: config.appid, mchid: config.mch_id})
+      |> generate_nonce_str
+      |> sign(config.apikey)
+      |> XMLBuilder.to_xml()
+
+    with {:ok, response} <- HTTPoison.post(path, request_data, headers, options),
+         {:ok, response_data} <- process_response(response),
+         {:ok, data} <- process_return_field(response_data),
+         {:ok, data} <- process_result_field(data) do
+      {:ok, data}
+    end
+  end
+
   defp do_post_with_verify_sign(path, attrs, options, config) do
     with {:ok, data} <- do_post_without_verify_sign(path, attrs, options, config),
          :ok <- Signature.verify(data, config.apikey) do
