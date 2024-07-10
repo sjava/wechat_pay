@@ -191,7 +191,7 @@ defmodule WechatPay.API do
 
   defp load_ssl(config) do
     [
-      verify: :verify_peer,
+      # verify: :verify_peer,
       cacerts: config.ssl_cacert |> decode_public()|>List.wrap(),
       cert: config.ssl_cert |> decode_public(),
       key: config.ssl_key |> decode_private()
